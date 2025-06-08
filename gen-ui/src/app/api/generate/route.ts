@@ -15,10 +15,15 @@ Return JSON with keys: ui (html string) and css (scss string).`;
     model: 'gpt-4o',
     messages: [{ role: 'user', content: prompt }],
     temperature: 0.7,
-    response_format: 'json',
   });
 
-  return new Response(JSON.stringify(completion.choices[0].message.content), {
+  const message = completion.choices[0].message?.content;
+  if (!message) {
+    return new Response(JSON.stringify({ error: 'No response from model' }), { status: 500 });
+  }
+
+  const { ui, css } = JSON.parse(message);
+  return new Response(JSON.stringify({ ui, css }), {
     headers: { 'Content-Type': 'application/json' },
   });
 }
