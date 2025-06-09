@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CodeBlock } from "@/components/ui/code-block";
 import { generateUI } from "@/lib/api";
+import DOMPurify from "dompurify";
 
 export default function ClientUI() {
   const [description, setDescription] = useState("");
@@ -16,8 +17,21 @@ export default function ClientUI() {
   const handleGenerate = async () => {
     setLoading(true);
     const { ui, css } = await generateUI(description);
-    setUiCode(ui);
-    setCssCode(css);
+
+    // Check for dangerous JS or dynamic behavior
+    const hasScript = /<script[\s>]|javascript:|on\w+=/i.test(ui);
+
+    if (hasScript) {
+      alert("⚠️ Unsafe code detected. Generation skipped.");
+      setUiCode("");
+      setCssCode("");
+    } else {
+      const uiCode = DOMPurify.sanitize(ui);
+      console.log("Generated code: ", uiCode);
+      setUiCode(uiCode);
+      setCssCode(css);
+    }
+
     setLoading(false);
   };
 
