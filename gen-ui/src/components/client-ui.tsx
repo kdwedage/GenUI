@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { CodeBlock } from '@/components/ui/code-block';
-import { generateUI } from '@/lib/api';
+import { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { CodeBlock } from "@/components/ui/code-block";
+import { generateUI } from "@/lib/api";
 
 export default function ClientUI() {
-  const [description, setDescription] = useState('');
-  const [uiCode, setUiCode] = useState('');
-  const [cssCode, setCssCode] = useState('');
+  const [description, setDescription] = useState("");
+  const [uiCode, setUiCode] = useState("");
+  const [cssCode, setCssCode] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleGenerate = async () => {
@@ -30,14 +30,17 @@ export default function ClientUI() {
         className="mb-4"
       />
       <Button onClick={handleGenerate} disabled={loading}>
-        {loading ? 'Generating...' : 'Generate UI'}
+        {loading ? "Generating..." : "Generate UI"}
       </Button>
 
       {uiCode && (
         <div className="mt-8 grid grid-cols-2 gap-4">
           <Card>
             <h2 className="text-xl font-semibold mb-2">Generated UI</h2>
-            <div className="border rounded p-4" dangerouslySetInnerHTML={{ __html: uiCode }} />
+            <div
+              className="border rounded p-4"
+              dangerouslySetInnerHTML={{ __html: uiCode }}
+            />
           </Card>
           <Card>
             <h2 className="text-xl font-semibold mb-2">CSS Output</h2>

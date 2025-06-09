@@ -1,4 +1,4 @@
-import ClientUI from '@/components/client-ui';
+import ClientUI from "@/components/client-ui";
 
 export default function HomePage() {
   return (
